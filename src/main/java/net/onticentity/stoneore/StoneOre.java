@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.minecraft.commands.arguments.blocks.BlockStateArgument;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
@@ -13,20 +14,33 @@ import net.minecraft.world.level.block.Blocks;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Map;
+
 public class StoneOre implements ModInitializer {
 	public static final String MOD_ID = "stoneore";
 
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
-	private ItemStack returnStone(Block block) {
-		if (block == Blocks.COAL_ORE) {
-			return new ItemStack(Items.COBBLESTONE);
-		} else if (block == Blocks.DEEPSLATE_COAL_ORE) {
-			return new ItemStack(Items.COBBLED_DEEPSLATE);
-		}
+	private static final Map<Block, Item> ORE_TO_STONE = Map.ofEntries(
 
-		return ItemStack.EMPTY;
-	}
+			Map.entry(Blocks.COAL_ORE,      Items.COBBLESTONE),
+			Map.entry(Blocks.IRON_ORE,      Items.COBBLESTONE),
+			Map.entry(Blocks.GOLD_ORE,      Items.COBBLESTONE),
+			Map.entry(Blocks.COPPER_ORE,    Items.COBBLESTONE),
+			Map.entry(Blocks.DIAMOND_ORE,   Items.COBBLESTONE),
+			Map.entry(Blocks.EMERALD_ORE,   Items.COBBLESTONE),
+			Map.entry(Blocks.LAPIS_ORE,     Items.COBBLESTONE),
+			Map.entry(Blocks.REDSTONE_ORE,  Items.COBBLESTONE),
+
+			Map.entry(Blocks.DEEPSLATE_COAL_ORE,     Items.COBBLED_DEEPSLATE),
+			Map.entry(Blocks.DEEPSLATE_IRON_ORE,     Items.COBBLED_DEEPSLATE),
+			Map.entry(Blocks.DEEPSLATE_GOLD_ORE,     Items.COBBLED_DEEPSLATE),
+			Map.entry(Blocks.DEEPSLATE_COPPER_ORE,   Items.COBBLED_DEEPSLATE),
+			Map.entry(Blocks.DEEPSLATE_DIAMOND_ORE,  Items.COBBLED_DEEPSLATE),
+			Map.entry(Blocks.DEEPSLATE_EMERALD_ORE,  Items.COBBLED_DEEPSLATE),
+			Map.entry(Blocks.DEEPSLATE_LAPIS_ORE,    Items.COBBLED_DEEPSLATE),
+			Map.entry(Blocks.DEEPSLATE_REDSTONE_ORE, Items.COBBLED_DEEPSLATE)
+	);
 
 	@Override
 	public void onInitialize() {
@@ -38,18 +52,18 @@ public class StoneOre implements ModInitializer {
 
 			Block block = state.getBlock();
 
-			if (state.is(BlockTags.COAL_ORES)) {
+			Item stone = ORE_TO_STONE.get(block);
 
-				ItemEntity itemEntity = new ItemEntity(
-						world,
-						pos.getX() + 0.5,
-						pos.getY() + 0.5,
-						pos.getZ() + 0.5,
-						returnStone(block)
+			if (stone == null) return;
+
+			ItemEntity itemEntity = new ItemEntity(
+				world,
+				pos.getX() + 0.5,
+				pos.getY() + 0.5,
+				pos.getZ() + 0.5,
+					new ItemStack(stone)
 				);
-				world.addFreshEntity(itemEntity);
-			}
-
+			world.addFreshEntity(itemEntity);
 		});
 	}
 }
