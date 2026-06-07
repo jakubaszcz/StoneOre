@@ -39,7 +39,10 @@ public class StoneOre implements ModInitializer {
 			Map.entry(Blocks.DEEPSLATE_DIAMOND_ORE,  Items.COBBLED_DEEPSLATE),
 			Map.entry(Blocks.DEEPSLATE_EMERALD_ORE,  Items.COBBLED_DEEPSLATE),
 			Map.entry(Blocks.DEEPSLATE_LAPIS_ORE,    Items.COBBLED_DEEPSLATE),
-			Map.entry(Blocks.DEEPSLATE_REDSTONE_ORE, Items.COBBLED_DEEPSLATE)
+			Map.entry(Blocks.DEEPSLATE_REDSTONE_ORE, Items.COBBLED_DEEPSLATE),
+
+			Map.entry(Blocks.NETHER_QUARTZ_ORE, Items.NETHERRACK),
+			Map.entry(Blocks.NETHER_GOLD_ORE, Items.NETHERRACK)
 	);
 
 	@Override
